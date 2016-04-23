@@ -35,13 +35,8 @@
         Depart. of Transportation Prompt
       </p>
 
-      <p>
-        <input type="radio" name="radio-parameter" value='temp' checked>Temperature</input>
-        <input type="radio" name="radio-parameter" value='precip'>Precipitation</input>
-
-      </p>
       <div id="selected-title"></div>
-      <div id="legend"></div>
+
       <p>
         <a href="http://bayeshack.org/transportation.html">The prompt</a> for the Bayes hackathon
       </p>
@@ -51,9 +46,9 @@
         Click on a watershed to show historical data in the bar chart
       </p>
       <p>
-        <select name="defaultData-model" id="defaultData-model-dropdown">
-          <option value="HST" selected>Historical</option>
-          <option value="CCSM4_rcp85">CCSM4 RCP8.5</option>
+        <select name="data-year" id="data-year-dropdown">
+          <option value="2015" selected>2015</option>
+          <option value="2016">2016</option>
         </select>
         <select name="defaultData-year" id="defaultData-year-dropdown"></select>
       </p>
