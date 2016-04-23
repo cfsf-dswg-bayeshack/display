@@ -1,4 +1,6 @@
-let colorMap = d3.map()
+var colorMap = d3.map()
+
+var allData
 
 var width = 960,
     height = 500,
@@ -46,6 +48,8 @@ queue()
 function renderFirst(error, us, rawdata) {
   if (error) throw error;
 
+  allData = rawdata
+
   var year = 2015
   var data = chooseYear(rawdata, year)
   setColorKey(data)
@@ -56,7 +60,7 @@ function renderFirst(error, us, rawdata) {
       .attr("d", path)
       .on("click", clicked)
       .attr("class", function(d){
-        return quantize(colorMap.get(d.id))
+        return 'state ' + quantize(colorMap.get(d.id))
       })
 
   g.append("path")
@@ -124,3 +128,21 @@ function zoomed() {
 function stopped() {
   if (d3.event.defaultPrevented) d3.event.stopPropagation();
 }
+
+
+/* page listeners */
+d3.select('#data-year-dropdown').on('change', function(){
+  return dispatcher.changeYear(+this.value);
+})
+
+/* dispatcher events */
+let dispatcher = d3.dispatch('changeYear')
+dispatcher.on('changeYear', function(year){
+  var data = chooseYear(allData, year)
+  setColorKey(data)
+
+  d3.selectAll(".state")
+      .attr("class", function(d){
+        return 'state ' + quantize(colorMap.get(d.id))
+      })
+})
