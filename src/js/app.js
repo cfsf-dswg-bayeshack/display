@@ -244,15 +244,17 @@ function setStateCallout (id) {
   var data = curData.find(function(el) {
     return +el.id === id
   })
-  d3.select("#callout-state").html(fipsToState(id))
+  d3.select("#callout-statename").html(fipsToState(curState))
+
   for (prop in data) {
     var domEl = d3.select("#callout-" + prop)
     if (domEl[0][0]) {
-      domEl.html(data[prop])
+      domEl.html(Math.round(data[prop]))
     }
   }
   // debugger
-  d3.select("#callout-value").html(data[curYear])
+  d3.select("#callout-predicted-value").html(Math.round(data.predicted_incidents_2015))
+  d3.select("#callout-actual-value").html(data.actual_incidents_2015)
 }
 
 function fipsToState (fips) {
