@@ -1,39 +1,30 @@
 {
-  "name": "pointblue",
-  "version": "0.0.1",
-  "description": "Watershed Data Visualization for Point Blue",
+  "name": "DSWG Bayes Hackathon Project",
+  "version": "0.1.0",
+  "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/thfield/pointblue.git"
+    "url": ""
   },
-  "author": "Tyler Field",
+  "author": "T",
   "license": "ISC",
   "private": "true",
   "bugs": {
-    "url": "https://github.com/thfield/pointblue/issues"
+    "url": ""
   },
-  "homepage": "https://github.com/thfield/pointblue#readme",
+  "homepage": "",
   "dependencies": {
     "d3": "^3.5.14",
     "d3-queue": "^2.0.2",
     "d3-svg-legend": "^1.8.0",
-    "d3.chart": "^0.3.0",
-    "d3.geo.tile": "0.0.0",
-    "datatables": "^1.10.11",
-    "gulp-webpack": "^1.5.0",
-    "jquery": "^2.2.3",
-    "lodash": "^4.3.0",
     "topojson": "^1.6.22"
   },
   "devDependencies": {
     "browser-sync": "^2.11.1",
-    "csv": "^0.4.6",
-    "csv2json": "^1.1.0",
-    "csvtojson": "^0.5.2",
     "gulp": "^3.9.1",
     "gulp-cdnizer": "^1.1.6",
     "gulp-concat": "^2.6.0",
@@ -46,7 +37,6 @@
     "gulp-useref": "^3.0.5",
     "gulp-webpack": "^1.5.0",
     "jshint": "^2.9.1",
-    "turf": "^2.0.2",
     "webpack": "^1.12.13",
     "webpack-stream": "^3.1.0"
   }

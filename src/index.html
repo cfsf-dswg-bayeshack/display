@@ -31,26 +31,14 @@
 
   <div class="row">
     <form id="controls" class="four columns">
-      <p>
-        Depart. of Transportation Prompt
-      </p>
-
-      <div id="selected-title"></div>
-
-      <p>
-        <a href="http://bayeshack.org/transportation.html">The prompt</a> for the Bayes hackathon
-      </p>
-
-      <p>
-        <select name="data-year" id="data-year-dropdown">
-          <option value="2015" selected>2015</option>
-          <option value="2016">2016</option>
-        </select>
-      </p>
-
+      <select name="data-year" id="data-year-dropdown">
+        <option value="2015" selected>2015</option>
+        <option value="2016">2016</option>
+      </select>
+      <input type="range" name="name" value="">
     </form>
 
-    <div id="" class="eight columns chart-container">
+    <div id="" class="two columns chart-container">
       <table class="u-full-width">
         <thead class="hidden">
           <tr>
@@ -59,6 +47,10 @@
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td>State:</td>
+            <td id="callout-state" class="callout"></td>
+          </tr>
           <tr>
             <td>Value:</td>
             <td id="callout-value" class="callout"></td>
@@ -87,6 +79,14 @@
       </table>
     </div>
 
+    <div class="four columns">
+      <p>
+        Department of Transportation Prompt
+      </p>
+      <p>
+        <a href="http://bayeshack.org/transportation.html">The prompt</a> for the Bayes hackathon
+      </p>
+    </div>
   </div>
 
   <div class="row">
@@ -100,10 +100,6 @@
   </div>
 </div>
 
-<!--build:js js/libraries.js -->
-<!-- <script src="js/lib/barChart.js" charset="utf-8"></script> -->
-<!-- <script src="js/lib/choropleth.js" charset="utf-8"></script> -->
-<!-- endbuild -->
 
 <!--build:js js/app.js -->
 <!-- <script src="js/draw.js"></script> -->

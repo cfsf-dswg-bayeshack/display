@@ -2,9 +2,14 @@ var colorMap = d3.map()
 
 var allData,
     curData,
-    curState
+    curState,
+    fipsData
 
-var width = 960,
+d3.json('data/statefips.json', function(data){
+      fipsData = data
+    })
+
+var width = 900,
     height = 500,
     active = d3.select(null);
 
@@ -21,7 +26,7 @@ var zoom = d3.behavior.zoom()
 var path = d3.geo.path()
     .projection(projection);
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#map_container").append("svg")
     .attr("width", width)
     .attr("height", height)
     .on("click", stopped, true);
@@ -100,8 +105,6 @@ function clicked(d) {
   active.classed("active", false);
   active = d3.select(this).classed("active", true);
 
-
-
   var bounds = path.bounds(d),
       dx = bounds[1][0] - bounds[0][0],
       dy = bounds[1][1] - bounds[0][1],
@@ -123,7 +126,7 @@ function reset() {
       .duration(750)
       .call(zoom.translate([0, 0]).scale(1).event);
 
-  d3.selectAll('.callout').html('')    
+  d3.selectAll('.callout').html('')
 }
 
 function zoomed() {
@@ -162,12 +165,18 @@ function setStateCallout (id) {
   var data = curData.find(function(el) {
     return +el.id === id
   })
-
-for (prop in data) {
-  var domEl = d3.select("#callout-" + prop)
-  if (domEl[0][0]) {
-    domEl.html(data[prop])
+  d3.select("#callout-state").html(fipsToState(id))
+  for (prop in data) {
+    var domEl = d3.select("#callout-" + prop)
+    if (domEl[0][0]) {
+      domEl.html(data[prop])
+    }
   }
 }
-}
 
+function fipsToState (fips) {
+  var stateObj = fipsData.find(function(el){
+    return +el.id === fips
+  })
+  return stateObj.state
+}
