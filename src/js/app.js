@@ -1,22 +1,23 @@
-var DATAFILE = 'data/data.json'
+var DATAFILE = 'data/data.json' // input data file
 
 var FACTORS = [ {name:"Variable 1", min:"0", max:"100", start:"75"},
                 {name:"Variable 2", min:"1", max:"10", start:"3"},
                 {name:"Variable 3", min:"20", max:"50", start:"40"} ]
 // FACTORS will auto populate the HTML file with the above values
 
+
 function theMODEL(inputs) {
-  // inputs is an array of integers scraped from the sliders:
-  // [ f1, f2, f2 ]
+  // inputs is an array of integers scraped from the sliders: [ f1, f2, f2 ]
   var result
+
 
   result = allData.map(function(el){
     el.value = Math.random()*inputs[0] + Math.random()*inputs[1] + Math.random()*inputs[2]
     return el
   })
 
-  // result should look like data.json
-  return result
+
+  return result // result should look like data.json
 }
 
 
