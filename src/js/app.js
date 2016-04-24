@@ -1,3 +1,35 @@
+var DATAFILE = 'data/data.csv'
+
+var FACTORS = [ {name:"Variable 1", min:"0", max:"100", start:"75"},
+                {name:"Variable 2", min:"1", max:"10", start:"3"},
+                {name:"Variable 3", min:"20", max:"50", start:"40"} ]
+
+
+FACTORS.forEach(function(el,i){
+  d3.select('#labelf'+(i+1)).html(el.name)
+  d3.select('#inputf'+(i+1))
+      .attr('min',el.min)
+      .attr('max',el.max)
+      .attr('value',el.start)
+  d3.select('#outputf'+(i+1))
+      .html(el.start)
+})
+
+
+$(document).ready(function() {
+  // using http://jquery.malsup.com/form/#json
+  $('#controls').ajaxForm({
+    // dataType identifies the expected content type of the server response
+    dataType:  'json',
+    // success identifies the function to invoke when the server response has been received
+    success:   recalculate
+    });
+});
+
+
+
+
+
 var colorMap = d3.map()
 
 var allData,
@@ -8,6 +40,34 @@ var allData,
 d3.json('data/statefips.json', function(data){
       fipsData = data
     })
+
+// tooltip methods
+var tt = {
+  init: function(element){
+    d3.select(element).append('div')
+        .attr('id', 'tooltip')
+        .attr('class', 'hidden')
+      .append('span')
+        .attr('class', 'value')
+  },
+  follow: function(element, caption, options) {
+    element.on('mousemove', null);
+    element.on('mousemove', function() {
+      let position = d3.mouse(document.body);
+      d3.select('#tooltip')
+        .style('top', ( (position[1] + 30)) + "px")
+        .style('left', ( position[0]) + "px");
+      d3.select('#tooltip .value')
+        .html(caption);
+    });
+    d3.select('#tooltip').classed('hidden', false);
+  },
+  hide: function() {
+    d3.select('#tooltip').classed('hidden', true);
+  }
+}
+
+tt.init("body")
 
 var width = 900,
     height = 500,
@@ -46,10 +106,9 @@ svg
 let quantize = d3.scale.quantize()
     .range(d3.range(9).map(function(i) { return 'q' + i + '-9' }))
 
-
 queue()
   .defer(d3.json, 'data/topo/us-states-10m.json')
-  .defer(d3.csv, 'data/data.csv') //data file here
+  .defer(d3.csv, DATAFILE) //data file here
   .await(renderFirst)
 
 function renderFirst(error, us, rawdata) {
@@ -69,6 +128,12 @@ function renderFirst(error, us, rawdata) {
       .attr("class", function(d){
         return 'state ' + quantize(colorMap.get(d.id))
       })
+      .on('mouseover', function(d) {
+          let me = d3.select(this),
+              thisText = fipsToState(+d.id)
+          tt.follow(me, thisText)
+        })
+        .on("mouseout", tt.hide )
 
   g.append("path")
       .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
@@ -179,4 +244,14 @@ function fipsToState (fips) {
     return +el.id === fips
   })
   return stateObj.state
+}
+
+function recalculate(data) {
+  rawdata = data
+  var curYear = d3.select('input[name=data-year-dropdown]:selected').node().value;
+  var sel = document.getElementById('data-year-dropdown');
+  var curYear = sel.options[sel.selectedIndex].value
+
+  curData = chooseYear(rawdata, year)
+  setColorKey(curData)
 }

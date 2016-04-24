@@ -20,22 +20,51 @@
 
   <script src="vendor/d3.js" charset="utf-8"></script>
   <script src="vendor/topojson.js" charset="utf-8"></script>
-  <script src="vendor/index.js"></script>
-  <!-- <script src="vendor/d3.chart.js"></script> -->
   <script src="vendor/queue.js"></script>
   <script src="vendor/d3-legend.js"></script>
+  <script src="vendor/jquery.js"></script>
+  <script src="vendor/jquery.form.js"></script>
 </head>
 
 <body>
 <div class="container">
 
   <div class="row">
-    <form id="controls" class="four columns">
+    <div id="map_container" class="twelve columns chart-container"> </div>
+  </div>
+
+  <div class="row">
+    <div class="four columns">
+      <p>
+        Department of Transportation Prompt
+      </p>
+      <p>
+        <a href="http://bayeshack.org/transportation.html">The prompt</a> for the Bayes hackathon
+      </p>
+    </div>
+
+
+    <!-- put the post action here! -->
+    <form id="controls" action="" method="post"
+          class="four columns" oninput="f1_result.value=parseInt(f1.value);f2_result.value=parseInt(f2.value);f3_result.value=parseInt(f3.value)">
       <select name="data-year" id="data-year-dropdown">
         <option value="2015" selected>2015</option>
         <option value="2016">2016</option>
       </select>
-      <input type="range" name="name" value="">
+
+      <label for="f1" id="labelf1">Var 1</label>
+      <input type="range" name="f1" id="inputf1" value="">
+      <output id="outputf1" name="f1_result"></output>
+
+      <label for="f2" id="labelf2">Var 2</label>
+      <input type="range" name="f2" id="inputf2" value="">
+      <output id="outputf2" name="f2_result"></output>
+
+      <label for="f3" id="labelf3">Var 3</label>
+      <input type="range" name="f3" id="inputf3" value="">
+      <output id="outputf3" name="f3_result"></output>
+      <br>
+      <button type="button" name="button">ReCalculate</button>
     </form>
 
     <div id="" class="two columns chart-container">
@@ -79,18 +108,7 @@
       </table>
     </div>
 
-    <div class="four columns">
-      <p>
-        Department of Transportation Prompt
-      </p>
-      <p>
-        <a href="http://bayeshack.org/transportation.html">The prompt</a> for the Bayes hackathon
-      </p>
-    </div>
-  </div>
 
-  <div class="row">
-    <div id="map_container" class="twelve columns chart-container"> </div>
   </div>
 
   <div class="row">
@@ -102,7 +120,6 @@
 
 
 <!--build:js js/app.js -->
-<!-- <script src="js/draw.js"></script> -->
 <script src="js/app.js" charset="utf-8"></script>
 <!-- endbuild -->
 
