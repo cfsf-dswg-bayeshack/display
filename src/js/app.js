@@ -1,6 +1,8 @@
 var colorMap = d3.map()
 
-var allData
+var allData,
+    curData,
+    curState
 
 var width = 960,
     height = 500,
@@ -51,8 +53,8 @@ function renderFirst(error, us, rawdata) {
   allData = rawdata
 
   var year = 2015
-  var data = chooseYear(rawdata, year)
-  setColorKey(data)
+  curData = chooseYear(rawdata, year)
+  setColorKey(curData)
 
   g.selectAll("path")
       .data(topojson.feature(us, us.objects.states).features)
@@ -92,9 +94,13 @@ function setColorKey (data) {
 }
 
 function clicked(d) {
+  setStateCallout(d3.select(this).data()[0].id)
+
   if (active.node() === this) return reset();
   active.classed("active", false);
   active = d3.select(this).classed("active", true);
+
+
 
   var bounds = path.bounds(d),
       dx = bounds[1][0] - bounds[0][0],
@@ -116,6 +122,8 @@ function reset() {
   svg.transition()
       .duration(750)
       .call(zoom.translate([0, 0]).scale(1).event);
+
+  d3.selectAll('.callout').html('')    
 }
 
 function zoomed() {
@@ -138,11 +146,28 @@ d3.select('#data-year-dropdown').on('change', function(){
 /* dispatcher events */
 let dispatcher = d3.dispatch('changeYear')
 dispatcher.on('changeYear', function(year){
-  var data = chooseYear(allData, year)
-  setColorKey(data)
+  curData = chooseYear(allData, year)
+  setColorKey(curData)
 
   d3.selectAll(".state")
       .attr("class", function(d){
         return 'state ' + quantize(colorMap.get(d.id))
       })
+  setStateCallout(curState)
 })
+
+
+function setStateCallout (id) {
+  curState = id
+  var data = curData.find(function(el) {
+    return +el.id === id
+  })
+
+for (prop in data) {
+  var domEl = d3.select("#callout-" + prop)
+  if (domEl[0][0]) {
+    domEl.html(data[prop])
+  }
+}
+}
+

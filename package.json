@@ -23,7 +23,9 @@
     "d3-svg-legend": "^1.8.0",
     "d3.chart": "^0.3.0",
     "d3.geo.tile": "0.0.0",
+    "datatables": "^1.10.11",
     "gulp-webpack": "^1.5.0",
+    "jquery": "^2.2.3",
     "lodash": "^4.3.0",
     "topojson": "^1.6.22"
   },
