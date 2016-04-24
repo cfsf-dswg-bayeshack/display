@@ -48,23 +48,25 @@
     <form id="controls" action="" method="post"
           class="four columns" oninput="f1_result.value=parseInt(f1.value);f2_result.value=parseInt(f2.value);f3_result.value=parseInt(f3.value)">
       <select name="data-year" id="data-year-dropdown">
-        <option value="2015" selected>2015</option>
-        <option value="2016">2016</option>
+        <option value="predicted_incidents_2015" selected>predicted</option>
+        <option value="actual_incidents_2015">actual</option>
       </select>
 
-      <label for="f1" id="labelf1">Var 1</label>
-      <input type="range" name="f1" id="inputf1" value="">
-      <output id="outputf1" name="f1_result"></output>
+      <div class="hidden">
+        <label for="f1" id="labelf1">Var 1</label>
+        <input type="range" name="f1" id="inputf1" value="">
+        <output id="outputf1" name="f1_result"></output>
 
-      <label for="f2" id="labelf2">Var 2</label>
-      <input type="range" name="f2" id="inputf2" value="">
-      <output id="outputf2" name="f2_result"></output>
+        <label for="f2" id="labelf2">Var 2</label>
+        <input type="range" name="f2" id="inputf2" value="">
+        <output id="outputf2" name="f2_result"></output>
 
-      <label for="f3" id="labelf3">Var 3</label>
-      <input type="range" name="f3" id="inputf3" value="">
-      <output id="outputf3" name="f3_result"></output>
-      <br>
-      <button type="button" name="button" id="recalculate">ReCalculate</button>
+        <label for="f3" id="labelf3">Var 3</label>
+        <input type="range" name="f3" id="inputf3" value="">
+        <output id="outputf3" name="f3_result"></output>
+        <br>
+        <button type="button" name="button" id="recalculate">ReCalculate</button>
+      </div>
     </form>
 
     <div id="" class="two columns chart-container">
@@ -85,24 +87,20 @@
             <td id="callout-value" class="callout"></td>
           </tr>
           <tr>
-            <td id="callout-label-f1">F1:</td>
-            <td id="callout-f1" class="callout"></td>
+            <td id="callout-label-employees_mining_loging">employees_mining_loging:</td>
+            <td id="callout-employees_mining_loging" class="callout"></td>
           </tr>
           <tr>
-            <td id="callout-label-f2">F2:</td>
-            <td id="callout-f2" class="callout"></td>
+            <td id="callout-label-num_of_producible_wells">num_of_producible_wells:</td>
+            <td id="callout-num_of_producible_wells" class="callout"></td>
           </tr>
           <tr>
-            <td id="callout-label-f3">F3:</td>
-            <td id="callout-f3" class="callout"></td>
+            <td id="callout-label-num_of_producible_completions">num_of_producible_completions:</td>
+            <td id="callout-num_of_producible_completions" class="callout"></td>
           </tr>
           <tr>
-            <td id="callout-label-f4">F4:</td>
-            <td id="callout-f4" class="callout"></td>
-          </tr>
-          <tr>
-            <td id="callout-label-f5">F5:</td>
-            <td id="callout-f5" class="callout"></td>
+            <td id="callout-label-num_producing_acres">num_producing_acres:</td>
+            <td id="callout-num_producing_acres" class="callout"></td>
           </tr>
         </tbody>
       </table>

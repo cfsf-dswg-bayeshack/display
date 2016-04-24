@@ -1,4 +1,4 @@
-var DATAFILE = 'data/data.json' // input data file
+var DATAFILE = 'data/data.csv' // input data file
 
 var FACTORS = [ {name:"Variable 1", min:"0", max:"100", start:"75"},
                 {name:"Variable 2", min:"1", max:"10", start:"3"},
@@ -10,7 +10,7 @@ function theMODEL(inputs) {
   // inputs is an array of integers scraped from the sliders: [ f1, f2, f2 ]
   var result
 
-
+inputs[0]*inputs[1]-inputs[2]
   result = allData.map(function(el){
     el.value = Math.random()*inputs[0] + Math.random()*inputs[1] + Math.random()*inputs[2]
     return el
@@ -112,17 +112,19 @@ let quantize = d3.scale.quantize()
 
 queue()
   .defer(d3.json, 'data/topo/us-states-10m.json')
-  .defer(d3.json, DATAFILE) //data file here
+  .defer(d3.csv, DATAFILE) //data file here
   .await(renderFirst)
 
-function renderFirst(error, us, rawdata) {
+function renderFirst(error, us, csvData) {
   if (error) throw error;
 
-  allData = rawdata
+  allData = csvData
+  // allData = firstLoad(csvData)
 
-  var year = 2015
-  curData = chooseYear(allData, year)
-  setColorKey(curData)
+  var year = 'predicted_incidents_2015'
+  curData = allData
+  // curData = chooseYear(allData, year)
+  setColorKey(curData, year)
 
   g.selectAll("path")
       .data(topojson.feature(us, us.objects.states).features)
@@ -160,11 +162,11 @@ function chooseYear(rawdata, year) {
   return result
 }
 
-function setColorKey (data) {
+function setColorKey (data, value) {
   data.forEach(function(d){
-    colorMap.set(d.id, +d.value);
+    colorMap.set(d.id, +d[value]);
   })
-  quantize.domain( d3.extent(data,function(d){return +d.value}) )
+  quantize.domain( d3.extent(data,function(d){return +d[value]}) )
 }
 
 function clicked(d) {
@@ -212,7 +214,7 @@ function stopped() {
 
 /* page listeners */
 d3.select('#data-year-dropdown').on('change', function(){
-  return dispatcher.changeYear(+this.value);
+  return dispatcher.changeYear(this.value);
 })
 
 d3.select('#recalculate').on('click', recalculate)
@@ -220,8 +222,12 @@ d3.select('#recalculate').on('click', recalculate)
 /* dispatcher events */
 let dispatcher = d3.dispatch('changeYear')
 dispatcher.on('changeYear', function(year){
-  curData = chooseYear(allData, year)
-  setColorKey(curData)
+  var sel = document.getElementById('data-year-dropdown');
+  var curYear = sel.options[sel.selectedIndex].value
+  if (!year) year = curYear
+  curData = allData
+  // curData = chooseYear(allData, year)
+  setColorKey(curData,year)
 
   d3.selectAll(".state")
       .attr("class", function(d){
@@ -233,6 +239,8 @@ dispatcher.on('changeYear', function(year){
 
 function setStateCallout (id) {
   curState = id
+  var sel = document.getElementById('data-year-dropdown');
+  var curYear = sel.options[sel.selectedIndex].value
   var data = curData.find(function(el) {
     return +el.id === id
   })
@@ -243,13 +251,15 @@ function setStateCallout (id) {
       domEl.html(data[prop])
     }
   }
+  // debugger
+  d3.select("#callout-value").html(data[curYear])
 }
 
 function fipsToState (fips) {
   var stateObj = fipsData.find(function(el){
     return +el.id === fips
   })
-  return stateObj.state
+  return stateObj.name
 }
 
 function recalculate() {
@@ -265,11 +275,27 @@ function recalculate() {
   var sel = document.getElementById('data-year-dropdown');
   var curYear = +sel.options[sel.selectedIndex].value
 
-  curData = chooseYear(allData, curYear)
-  setColorKey(curData)
+  curData = allData
+  // curData = chooseYear(allData, curYear)
+  setColorKey(curData,curYear)
   d3.selectAll(".state")
       .attr("class", function(d){
         return 'state ' + quantize(colorMap.get(d.id))
       })
   setStateCallout(curState)
+}
+
+function firstLoad(csvData){
+  var dict = {
+    employees_mining_loging:'f1',
+    num_of_producible_wells:'f2',
+    num_of_producible_completions:'f3',
+    num_producing_acres:'f4'
+  }
+
+  csvData.forEach(function(el){
+
+  })
+
+debugger
 }

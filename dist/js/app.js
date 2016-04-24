@@ -10,7 +10,7 @@ function theMODEL(inputs) {
   // inputs is an array of integers scraped from the sliders: [ f1, f2, f2 ]
   var result
 
-
+inputs[0]*inputs[1]-inputs[2]
   result = allData.map(function(el){
     el.value = Math.random()*inputs[0] + Math.random()*inputs[1] + Math.random()*inputs[2]
     return el
@@ -249,7 +249,7 @@ function fipsToState (fips) {
   var stateObj = fipsData.find(function(el){
     return +el.id === fips
   })
-  return stateObj.state
+  return stateObj.name
 }
 
 function recalculate() {
