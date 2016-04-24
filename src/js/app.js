@@ -1,8 +1,27 @@
-var DATAFILE = 'data/data.csv'
+var DATAFILE = 'data/data.json'
 
 var FACTORS = [ {name:"Variable 1", min:"0", max:"100", start:"75"},
                 {name:"Variable 2", min:"1", max:"10", start:"3"},
                 {name:"Variable 3", min:"20", max:"50", start:"40"} ]
+// FACTORS will auto populate the HTML file with the above values
+
+function theMODEL(inputs) {
+  // inputs is an array of integers scraped from the sliders:
+  // [ f1, f2, f2 ]
+  console.log('themodel')
+  var result
+
+  result = allData.map(function(el){
+    el.value = Math.random()*inputs[0] + Math.random()*inputs[1] + Math.random()*inputs[2]
+    return el
+  })
+
+  // result should look like data.json
+  return result
+}
+
+
+
 
 
 FACTORS.forEach(function(el,i){
@@ -14,21 +33,6 @@ FACTORS.forEach(function(el,i){
   d3.select('#outputf'+(i+1))
       .html(el.start)
 })
-
-
-$(document).ready(function() {
-  // using http://jquery.malsup.com/form/#json
-  $('#controls').ajaxForm({
-    // dataType identifies the expected content type of the server response
-    dataType:  'json',
-    // success identifies the function to invoke when the server response has been received
-    success:   recalculate
-    });
-});
-
-
-
-
 
 var colorMap = d3.map()
 
@@ -108,7 +112,7 @@ let quantize = d3.scale.quantize()
 
 queue()
   .defer(d3.json, 'data/topo/us-states-10m.json')
-  .defer(d3.csv, DATAFILE) //data file here
+  .defer(d3.json, DATAFILE) //data file here
   .await(renderFirst)
 
 function renderFirst(error, us, rawdata) {
@@ -117,7 +121,7 @@ function renderFirst(error, us, rawdata) {
   allData = rawdata
 
   var year = 2015
-  curData = chooseYear(rawdata, year)
+  curData = chooseYear(allData, year)
   setColorKey(curData)
 
   g.selectAll("path")
@@ -211,6 +215,8 @@ d3.select('#data-year-dropdown').on('change', function(){
   return dispatcher.changeYear(+this.value);
 })
 
+d3.select('#recalculate').on('click', recalculate)
+
 /* dispatcher events */
 let dispatcher = d3.dispatch('changeYear')
 dispatcher.on('changeYear', function(year){
@@ -246,12 +252,25 @@ function fipsToState (fips) {
   return stateObj.state
 }
 
-function recalculate(data) {
-  rawdata = data
-  var curYear = d3.select('input[name=data-year-dropdown]:selected').node().value;
-  var sel = document.getElementById('data-year-dropdown');
-  var curYear = sel.options[sel.selectedIndex].value
+function recalculate() {
+  console.log('recalculate')
+  var inputs = [
+    d3.select("#inputf1").node().value,
+    d3.select("#inputf2").node().value,
+    d3.select("#inputf3").node().value
+  ]
 
-  curData = chooseYear(rawdata, year)
+  var data = theMODEL(inputs)
+  allData = data
+
+  var sel = document.getElementById('data-year-dropdown');
+  var curYear = +sel.options[sel.selectedIndex].value
+
+  curData = chooseYear(allData, curYear)
   setColorKey(curData)
+  d3.selectAll(".state")
+      .attr("class", function(d){
+        return 'state ' + quantize(colorMap.get(d.id))
+      })
+  setStateCallout(curState)
 }
