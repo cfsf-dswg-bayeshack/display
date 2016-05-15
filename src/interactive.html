@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Bayes Hack - Dept of Transportation</title>
+  <!--build:css css/styles.css -->
+  <link rel="stylesheet" href="css/stylesheet.css">
+  <!-- endbuild -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css"> -->
+
+  <!--build:css css/styles.vendor.css -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <!-- endbuild -->
+  <!-- <link rel="stylesheet" href="vendor/jquery.dataTables.css"> -->
+
+  <script src="vendor/d3.js" charset="utf-8"></script>
+  <script src="vendor/topojson.js" charset="utf-8"></script>
+  <script src="vendor/queue.js"></script>
+  <script src="vendor/d3-legend.js"></script>
+  <script src="vendor/jquery.js"></script>
+  <script src="vendor/jquery.form.js"></script>
+</head>
+
+<body>
+<div class="container">
+
+  <div class="row">
+    <div id="chart_container" class="twelve columns chart-container"> </div>
+  </div>
+
+  <div class="row">
+    <div class="four columns">
+      <p>
+        Department of Transportation Prompt
+      </p>
+      <p>
+        <a href="http://bayeshack.org/transportation.html">The prompt</a> for the Bayes hackathon
+      </p>
+    </div>
+
+
+    <!-- put the post action here! -->
+    <form id="controls" action="" method="post" class="four columns"
+          oninput="f1_result.value=parseInt(f1.value);f2_result.value=parseInt(f2.value)">
+
+      <label for="f1" id="labelf1">Var 1</label>
+      <input type="range" name="f1" id="inputf1" value="">
+      <output id="outputf1" name="f1_result"></output>
+
+      <label for="f2" id="labelf2">Var 2</label>
+      <input type="range" name="f2" id="inputf2" value="">
+      <output id="outputf2" name="f2_result"></output>
+
+    </form>
+
+
+
+
+  </div>
+
+  <div class="row">
+    <div class="eleven columns">
+
+    </div>
+  </div>
+</div>
+
+
+<!--build:js js/app.js -->
+<script src="js/interactive.js" charset="utf-8"></script>
+<!-- endbuild -->
+
+</body>
+
+</html>

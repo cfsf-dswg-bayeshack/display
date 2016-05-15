@@ -138,6 +138,7 @@ function renderFirst(error, us, csvData) {
           let me = d3.select(this),
               thisText = fipsToState(+d.id)
           tt.follow(me, thisText)
+          setStateCallout(d3.select(this).data()[0].id)
         })
         .on("mouseout", tt.hide )
 
